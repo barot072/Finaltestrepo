@@ -1,0 +1,7 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/teak-facet-441501-s8/flask-backend-repo/flask-backend:$BUILD_ID', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/teak-facet-441501-s8/flask-backend-repo/flask-backend:$BUILD_ID']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['compute', 'instances', 'update-container', 'flask-instance', '--container-image', 'us-central1-docker.pkg.dev/teak-facet-441501-s8/flask-backend-repo/flask-backend:$BUILD_ID', '--zone', 'us-central1-a']
